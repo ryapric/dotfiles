@@ -1,0 +1,9 @@
+
+git_pull () {
+    for i in $(ls); do
+        if [ -e ${i}/.git ]; then
+            echo $i
+            git -C $i pull
+        fi
+    done
+}
