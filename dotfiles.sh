@@ -34,23 +34,22 @@ elif [ "$1" == "-d" ]; then
 
     # General/bash
     if [ ! -e ~/.gitconfig ] || ! grep --quiet '[user]' ~/.gitconfig; then
-        echo -e "[user]
-        \tname = Ryan Price
-        \temail = ryapric@gmail.com" >> ~/.gitconfig
+        cat dot-gitconfig >> ~/.gitconfig
     fi
 
-    echo '
-git_pull () {
-    for i in $(ls); do
-        if [ -e ${i}/.git ]; then
-            echo $i
-            git -C $i pull
-        fi
-    done
-}' >> ~/.bashrc
+    if [ ! grep --quiet 'git_pull' ~/.bashrc ]; then
+        cat git_pull >> ~/.bashrc
+    fi
     
-    echo '
-PS1='"'"'${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[01;33m\]$(__git_ps1)\[\033[00m\]\$ '"'"'' >> ~/.bashrc
+    # sed'ing to find the right PS1 line to replace is annoying, so just append and fix manually later, if desired (but you probably won't need to)
+    cat PS1.txt >> ~/.bashrc
+
+    # Compton
+    echo "Compton config..."
+    cp compton.conf ~/.config/compton.conf
+    xfconf-query -c xfwm4 -p /general/use_compositing -s false
+    cp compton.desktop ~/.config/autostart/compton.desktop
+    echo "Done."
 
     # RStudio
     echo "RStudio config..."
@@ -65,7 +64,7 @@ PS1='"'"'${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\0
     echo "Done."
 
 else
-    echo "ERROR: You must pass either '-u' or '-d' flags. Aborting." >&2
+    echo "ERROR: You must pass either '-u' or '-d' flags, and 'u' needs a commit message. Aborting." >&2
     exit 1
 fi
 
