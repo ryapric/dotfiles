@@ -47,9 +47,10 @@ elif [ "$1" == "-d" ]; then
     # Compton
     echo "Compton config..."
     cp compton.conf ~/.config/compton.conf
-    xfconf-query -c xfwm4 -p /general/use_compositing -s false
+    #xfconf-query -c xfwm4 -p /general/use_compositing -s false
     cp compton.desktop ~/.config/autostart/compton.desktop
-    echo "Done."
+    echo "Done, but please disable XFCE compositing manually via:"
+    echo "`xfconf-query -c xfwm4 -p /general/use_compositing -s false`"
 
     # RStudio
     echo "RStudio config..."
