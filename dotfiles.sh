@@ -37,10 +37,10 @@ elif [ "$1" == "-d" ]; then
         cat dot-gitconfig >> ~/.gitconfig
     fi
 
-    if [ ! grep --quiet 'git_pull' ~/.bashrc ]; then
+    if ! grep --quiet 'git_pull' ~/.bashrc; then
         cat git_pull >> ~/.bashrc
     fi
-    
+
     # sed'ing to find the right PS1 line to replace is annoying, so just append and fix manually later, if desired (but you probably won't need to)
     cat PS1.txt >> ~/.bashrc
 
