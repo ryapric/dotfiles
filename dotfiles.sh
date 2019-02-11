@@ -10,7 +10,9 @@ ln -frs dot-gitconfig ${HOME}/.gitconfig
 # Compton
 echo "Setting symlink to compton config..."
 # Disable XFCE4 compositing, then set compton configs
-xfconf-query -c xfwm4 -p /general/use_compositing -s false
+if command -v compton > /dev/null; then
+    xfconf-query -c xfwm4 -p /general/use_compositing -s false
+fi
 ln -frs compton.conf ${HOME}/.config/compton.conf
 ln -frs compton.desktop ${HOME}/.config/autostart/compton.desktop
 
